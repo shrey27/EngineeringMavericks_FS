@@ -1,10 +1,11 @@
-import { createContext, useContext, useReducer, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { VIDEOS } from '../routes/routes';
-import { getCategories, getVideos } from '../service';
-import { defaultLandingState, landingReducer } from '../helpers';
-import { ToastMessage } from '../components';
-import { v4 as uuid } from 'uuid';
+import { createContext, useContext, useReducer, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { VIDEOS } from "../routes/routes";
+import { getVideos } from "../service";
+import { defaultLandingState, landingReducer } from "../helpers";
+import { ToastMessage } from "../components";
+import { categories } from "../utility/constants";
+import { v4 as uuid } from "uuid";
 
 const LandingContext = createContext();
 
@@ -14,7 +15,7 @@ const filterVideos = (filter, videoList) => {
   let tempList = videoList;
   if (filter) {
     tempList = tempList?.filter((e) =>
-      filter === 'All' ? true : e.category === filter
+      filter === "All" ? true : e.category === filter
     );
   }
   return tempList;
@@ -32,11 +33,11 @@ function LandingProvider({ children }) {
   const { filter, search, videoList, savedFilterList, after, more } = state;
 
   const load = () => {
-    dispatch({ type: 'SET_LOADING' });
+    dispatch({ type: "SET_LOADING" });
 
     setTimeout(() => {
       const newData = videoList?.slice(after, after + perPage);
-      dispatch({ type: 'RESET_LOADING', newData });
+      dispatch({ type: "RESET_LOADING", newData });
     }, 300);
   };
 
@@ -47,17 +48,16 @@ function LandingProvider({ children }) {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (search.trim().length > 0) {
-      dispatch({ type: 'SET_FILTER', payload: 'All' });
+      dispatch({ type: "SET_FILTER", payload: "All" });
     }
     navigate({
       pathname: VIDEOS,
-      search: `query=${search.trim()}`
+      search: `query=${search.trim()}`,
     });
   };
 
   const getCategoriesList = async () => {
-    const categories = await getCategories();
-    dispatch({ type: 'GET_CATEGORY', payload: categories });
+    dispatch({ type: "GET_CATEGORY", payload: categories });
   };
 
   const addNewVideo = async (formObject) => {
@@ -68,8 +68,8 @@ function LandingProvider({ children }) {
       )
     ) {
       dispatch({
-        type: 'ADD_FILTER',
-        payload: category
+        type: "ADD_FILTER",
+        payload: category,
       });
     }
     const videoObject = {
@@ -81,14 +81,14 @@ function LandingProvider({ children }) {
       description,
       videoDate: new Date(),
       viewCount: 0,
-      comments: []
+      comments: [],
     };
-    dispatch({ type: 'GET_VIDEOS', payload: [...videoList, videoObject] });
+    dispatch({ type: "GET_VIDEOS", payload: [...videoList, videoObject] });
 
     if (!more) {
-      dispatch({ type: 'SET_DATA', payload: [videoObject] });
+      dispatch({ type: "SET_DATA", payload: [videoObject] });
     }
-    ToastMessage('Video added to the end of the list', 'success');
+    ToastMessage("Video added to the end of the list", "success");
   };
 
   const updateCommentsOnVideo = (videoId, commentId, newComment, toEdit) => {
@@ -112,13 +112,13 @@ function LandingProvider({ children }) {
     } else {
       commentToUpdate = commentToUpdate.concat({
         _id: uuid(),
-        comment: newComment
+        comment: newComment,
       });
     }
 
     dispatch({
-      type: 'UPDATE_COMMENTS',
-      payload: { videoId, comments: commentToUpdate }
+      type: "UPDATE_COMMENTS",
+      payload: { videoId, comments: commentToUpdate },
     });
   };
 
@@ -130,9 +130,9 @@ function LandingProvider({ children }) {
   useEffect(() => {
     const getVideosList = async () => {
       const videos = await getVideos();
-      dispatch({ type: 'GET_VIDEOS', payload: videos });
+      dispatch({ type: "GET_VIDEOS", payload: videos });
       const newData = videos?.slice(0, 4);
-      dispatch({ type: 'SET_DATA', payload: newData });
+      dispatch({ type: "SET_DATA", payload: newData });
     };
     getCategoriesList();
     getVideosList();
@@ -148,7 +148,7 @@ function LandingProvider({ children }) {
         addNewVideo,
         updateCommentsOnVideo,
         getComments,
-        load
+        load,
       }}
     >
       {children}

@@ -1,15 +1,5 @@
 import axios from 'axios';
-import { GETCATEGORIES, GETVIDEOS } from '../routes/routes';
-
-export const getCategories = async () => {
-  try {
-    const resp = await axios.get(GETCATEGORIES);
-    const { data } = await resp;
-    return data.categories;
-  } catch (err) {
-    console.log('Landing Error', err);
-  }
-};
+import { GETVIDEOS } from '../routes/routes';
 
 export const getVideos = async () => {
   try {
