@@ -7,7 +7,7 @@ export const getLikedVideos = async (token) => {
       data: { likes }
     } = await axios.get(GETLIKED, {
       headers: {
-        authorization: token
+        auth_token: token
       }
     });
     return likes;
@@ -25,7 +25,7 @@ export const addLikedVideo = async (video, token) => {
       { video },
       {
         headers: {
-          authorization: token
+          auth_token: token
         }
       }
     );
@@ -41,7 +41,7 @@ export const deleteLikedVideo = async (id, token) => {
       data: { likes }
     } = await axios.delete(`${GETLIKED}/${id}`, {
       headers: {
-        authorization: token
+        auth_token: token
       }
     });
     return likes;

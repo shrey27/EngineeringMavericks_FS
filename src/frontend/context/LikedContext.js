@@ -4,7 +4,7 @@ import { addLikedVideo, deleteLikedVideo, getLikedVideos } from '../service';
 import {
   likedReducerFunc,
   defaultLikedState,
-  useLocalStorage
+  // useLocalStorage
 } from '../helpers';
 import { ToastMessage } from '../components';
 
@@ -13,13 +13,13 @@ const LikedContext = createContext();
 const LikedProvider = ({ children }) => {
   const [state, dispatch] = useReducer(likedReducerFunc, defaultLikedState);
   const { token } = useAuthCtx();
-  const { updateLocalStorage } = useLocalStorage();
+  // const { updateLocalStorage } = useLocalStorage();
 
   const deleteLikedFromList = async (id) => {
     dispatch({ type: 'LIKE_API_REQUEST' });
     const { addedVideosId } = state;
     const likes = await deleteLikedVideo(id, token);
-    updateLocalStorage('likes', likes);
+    // updateLocalStorage('likes', likes);
     dispatch({
       type: 'LIKE_API_RESPONSE',
       payload: likes
@@ -44,7 +44,7 @@ const LikedProvider = ({ children }) => {
           type: 'LIKE_API_RESPONSE',
           payload: likes
         });
-        updateLocalStorage('likes', likes);
+        // updateLocalStorage('likes', likes);
         const idArray = likes.map((elem) => elem._id);
         dispatch({ type: 'UPDATE_ID', payload: [...idArray] });
         ToastMessage('You have liked this Video', 'success');
@@ -65,13 +65,13 @@ const LikedProvider = ({ children }) => {
       const idArray = likes.map((elem) => elem._id);
       dispatch({ type: 'UPDATE_ID', payload: [...idArray] });
 
-      const datatoUpdate = JSON.parse(localStorage.getItem('userData'));
-      datatoUpdate.likes = [...likes];
-      localStorage.setItem('userData', JSON.stringify(datatoUpdate));
+      // const datatoUpdate = JSON.parse(localStorage.getItem('userData'));
+      // datatoUpdate.likes = [...likes];
+      // localStorage.setItem('userData', JSON.stringify(datatoUpdate));
 
       dispatch({ type: 'STOP_LIKE_LOADER' });
     };
-    // if (token) getLikedList();
+    if (token) getLikedList();
   }, [token]);
 
   return (
