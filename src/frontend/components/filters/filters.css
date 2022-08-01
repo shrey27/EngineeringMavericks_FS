@@ -1,0 +1,79 @@
+@import '../../utility/styles.css';
+
+/* Filter container */
+.filter {
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+/* FIlter Buttons */
+.filter_btn {
+  display: inline-block;
+  background-color: var(--tertiary--light);
+  border-radius: 5px;
+  color: var(--white);
+  padding: 0;
+  height: 0;
+  margin: 0;
+  opacity: 0;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: all 200ms ease-in;
+}
+.filter_btn:hover {
+  background-color: var(--tertiary);
+  border: none;
+  outline: none;
+}
+.btn_left,
+.btn_right {
+  height: 100%;
+  width: auto;
+  opacity: 1;
+  padding: 1.5rem 0.45rem;
+}
+
+/* Filter options container */
+.filter_ctr {
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  width: 94%;
+  margin: 0 auto;
+  padding: 0.95rem 0;
+}
+.filter_ctr::-webkit-scrollbar {
+  height: 0;
+}
+
+/* Filter option */
+.filter__option {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--white);
+  background-color: var(--dismiss--light);
+  border: 1px solid var(--tertiary);
+  border-radius: 120px;
+  padding: 0.75rem 1.3rem;
+  margin: 0 0.5rem;
+  cursor: pointer;
+}
+.filter__option.chosen {
+  color: var(--white);
+  background-color: var(--tag);
+  border: 1px solid var(--tag);
+}
+.filter__option__input {
+  display: none;
+}
+
+@media screen and (min-width: 1300px) {
+  .btn_left,
+  .btn_right {
+    height: 0;
+    width: 0;
+    opacity: 0;
+    padding: 0;
+  }
+}
