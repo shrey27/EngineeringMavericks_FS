@@ -75,7 +75,7 @@ const WatchProvider = ({ children }) => {
 
       dispatch({ type: 'WATCH_CLOSE_LOADER' });
     };
-    if (token) getHistoryList();
+    // if (token) getHistoryList();
   }, [token]);
 
   return (

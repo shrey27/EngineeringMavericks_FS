@@ -58,9 +58,9 @@ export const testCredentials = {
 };
 
 export const loginCredentials = {
-  email: "carljones1234@gmail.com",
-  password: "carljones1234",
-  username: "Carl Jones",
+  email: "johndoe1234@gmail.com",
+  password: "johndoe1234",
+  username: "John Doe",
 };
 
 export const suggestedVideos = [

@@ -71,7 +71,7 @@ const LikedProvider = ({ children }) => {
 
       dispatch({ type: 'STOP_LIKE_LOADER' });
     };
-    if (token) getLikedList();
+    // if (token) getLikedList();
   }, [token]);
 
   return (

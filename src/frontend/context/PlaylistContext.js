@@ -93,9 +93,9 @@ const PlaylistProvider = ({ children }) => {
       datatoUpdate.playlists = [...playlistsArray];
       localStorage.setItem('userData', JSON.stringify(datatoUpdate));
     };
-    if (token) {
-      getPlaylistsFunction();
-    }
+    // if (token) {
+    //   getPlaylistsFunction();
+    // }
   }, [token]);
 
   return (

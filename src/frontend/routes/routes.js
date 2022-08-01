@@ -17,7 +17,7 @@ const EXPRESS_SERVER = "https://engineeringmavericks.shrey27.repl.co/v1";
 // API Endpoints
 export const GETVIDEOS = EXPRESS_SERVER + "/videos";
 export const SIGN_UP = EXPRESS_SERVER + "/auth/signup";
-export const SIGN_IN = EXPRESS_SERVER + "/auth/login";
+export const SIGN_IN = EXPRESS_SERVER + "/auth/signin";
 export const GETLIKED = EXPRESS_SERVER + "/likes";
 export const GETHISTORY = EXPRESS_SERVER + "/history";
 export const WATCHLATER = EXPRESS_SERVER + "/watchlater";

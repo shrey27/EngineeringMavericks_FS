@@ -77,7 +77,7 @@ const HistoryProvider = ({ children }) => {
       datatoUpdate.history = [...history];
       localStorage.setItem('userData', JSON.stringify(datatoUpdate));
     };
-    if (token) getHistoryList();
+    // if (token) getHistoryList();
   }, [token]);
 
   return (
