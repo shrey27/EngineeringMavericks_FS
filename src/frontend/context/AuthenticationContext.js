@@ -22,6 +22,12 @@ const AuthenticationProvider = ({ children }) => {
       const response = await signInApi(email, password);
       if (response.data) {
         const { foundUser, encodedToken } = response.data;
+        delete foundUser.likes;
+        delete foundUser.watchlater;
+        delete foundUser.history;
+        delete foundUser.playlists;
+        delete foundUser.password;
+        delete foundUser._id;
         localStorage.setItem("token", encodedToken);
         localStorage.setItem("userData", JSON.stringify(foundUser));
         dispatch({ type: "TOKEN-SAVED", payload: encodedToken });
@@ -42,6 +48,12 @@ const AuthenticationProvider = ({ children }) => {
       const response = await signUpApi(username, signupEmail, signupPassword);
       if (response.data) {
         const { createdUser, encodedToken } = response.data;
+        delete createdUser.likes;
+        delete createdUser.watchlater;
+        delete createdUser.history;
+        delete createdUser.playlists;
+        delete createdUser.password;
+        delete createdUser._id;
         localStorage.setItem("token", encodedToken);
         localStorage.setItem("userData", JSON.stringify(createdUser));
         dispatch({ type: "TOKEN-SAVED", payload: encodedToken });

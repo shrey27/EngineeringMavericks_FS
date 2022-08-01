@@ -6,7 +6,7 @@ export const getPlaylists = async (token) => {
   try {
     const {
       data: { playlists }
-    } = await axios.get(PLAYLISTSAPI, { headers: { authorization: token } });
+    } = await axios.get(PLAYLISTSAPI, { headers: { auth_token: token } });
 
     return playlists;
   } catch (err) {
@@ -21,7 +21,7 @@ export const addPlaylist = async (playlist, token) => {
     } = await axios.post(
       PLAYLISTSAPI,
       { playlist },
-      { headers: { authorization: token } }
+      { headers: { auth_token: token } }
     );
     return playlists;
   } catch (err) {
@@ -35,7 +35,7 @@ export const deletePlaylist = async (id, token) => {
       data: { playlists }
     } = await axios.delete(`${PLAYLISTSAPI}/${id}`, {
       headers: {
-        authorization: token
+        auth_token: token
       }
     });
     return playlists;
@@ -50,7 +50,7 @@ export const getVideosOfPlaylist = async (id, token) => {
     const {
       data: { playlist }
     } = await axios.get(`${PLAYLISTSAPI}/${id}`, {
-      headers: { authorization: token }
+      headers: { auth_token: token }
     });
     return playlist;
   } catch (err) {
@@ -65,7 +65,7 @@ export const addVideoToPlaylist = async (id, video, token) => {
     } = await axios.post(
       `${PLAYLISTSAPI}/${id}`,
       { video },
-      { headers: { authorization: token } }
+      { headers: { auth_token: token } }
     );
     return playlist;
   } catch (err) {
@@ -79,7 +79,7 @@ export const deleteVideoFromPlaylist = async (id, videoId, token) => {
       data: { playlist }
     } = await axios.delete(`${PLAYLISTSAPI}/${id}/${videoId}`, {
       headers: {
-        authorization: token
+        auth_token: token
       }
     });
     return playlist;
