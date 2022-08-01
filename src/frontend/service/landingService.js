@@ -1,13 +1,16 @@
-import axios from 'axios';
-import { GETVIDEOS } from '../routes/routes';
+import axios from "axios";
+import { GETVIDEOS } from "../routes/routes";
 
 export const getVideos = async () => {
-  try {
-    const {
-      data: { videos }
-    } = await axios.get(GETVIDEOS);
-    return videos;
-  } catch (err) {
-    console.log('Videos Error', err);
-  }
+  const {
+    data: { videos },
+  } = await axios.get(GETVIDEOS);
+  return videos;
+};
+
+export const uploadVideo = async (video) => {
+  const {
+    data: { videos },
+  } = await axios.post(GETVIDEOS, { video });
+  return videos;
 };

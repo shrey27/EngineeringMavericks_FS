@@ -1,11 +1,13 @@
 import { createContext, useContext, useReducer, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { VIDEOS } from "../routes/routes";
-import { getVideos } from "../service";
+import { getVideos, uploadVideo } from "../service";
 import { defaultLandingState, landingReducer } from "../helpers";
 import { ToastMessage } from "../components";
 import { categories } from "../utility/constants";
 import { v4 as uuid } from "uuid";
+import { useAuthCtx } from "./AuthenticationContext";
+import axios from "axios";
 
 const LandingContext = createContext();
 
@@ -28,6 +30,7 @@ function getId(url) {
 }
 
 function LandingProvider({ children }) {
+  const { token } = useAuthCtx();
   const navigate = useNavigate();
   const [state, dispatch] = useReducer(landingReducer, defaultLandingState);
   const { filter, search, videoList, savedFilterList, after, more } = state;
@@ -61,34 +64,44 @@ function LandingProvider({ children }) {
   };
 
   const addNewVideo = async (formObject) => {
-    const { url, category, creator, title, description } = formObject;
-    if (
-      !savedFilterList.some(
-        (item) => item.toLowerCase() === category.toLowerCase()
-      )
-    ) {
-      dispatch({
-        type: "ADD_FILTER",
-        payload: category,
-      });
+    try {
+      const { url, category, creator, title, description } = formObject;
+      const youtubeVideoId = getId(url);
+      if (!videoList.some((item) => item.video === youtubeVideoId)) {
+        if (
+          !savedFilterList.some(
+            (item) => item.toLowerCase() === category.toLowerCase()
+          )
+        ) {
+          dispatch({
+            type: "ADD_FILTER",
+            payload: category,
+          });
+        }
+        const videoObject = {
+          _id: uuid(),
+          video: youtubeVideoId,
+          creator,
+          title,
+          category,
+          description,
+          videoDate: new Date(),
+          viewCount: 0,
+          comments: [],
+        };
+        const videos = await uploadVideo(videoObject);
+        dispatch({ type: "GET_VIDEOS", payload: videos });
+        if (!more) {
+          dispatch({ type: "SET_DATA", payload: [videoObject] });
+        }
+        ToastMessage("Video added successfully", "success");
+      } else {
+        ToastMessage("Video already uploaded", "error");
+      }
+    } catch (err) {
+      console.log("Video UPLOAD failed !", err);
+      ToastMessage("Video was not uploaded", "error");
     }
-    const videoObject = {
-      _id: uuid(),
-      video: getId(url),
-      creator,
-      title,
-      category,
-      description,
-      videoDate: new Date(),
-      viewCount: 0,
-      comments: [],
-    };
-    dispatch({ type: "GET_VIDEOS", payload: [...videoList, videoObject] });
-
-    if (!more) {
-      dispatch({ type: "SET_DATA", payload: [videoObject] });
-    }
-    ToastMessage("Video added to the end of the list", "success");
   };
 
   const updateCommentsOnVideo = (videoId, commentId, newComment, toEdit) => {
@@ -134,8 +147,12 @@ function LandingProvider({ children }) {
       const newData = videos?.slice(0, 4);
       dispatch({ type: "SET_DATA", payload: newData });
     };
-    getCategoriesList();
-    getVideosList();
+    try {
+      getCategoriesList();
+      getVideosList();
+    } catch (err) {
+      console.log("GET-Videos Error", err);
+    }
   }, []);
 
   return (
