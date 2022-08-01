@@ -7,7 +7,7 @@ export const getWatchLaterVideos = async (token) => {
       data: { watchlater }
     } = await axios.get(WATCHLATER, {
       headers: {
-        authorization: token
+        auth_token: token
       }
     });
     return watchlater;
@@ -23,7 +23,7 @@ export const addToWatchLater = async (video, token) => {
     } = await axios.post(
       WATCHLATER,
       { video },
-      { headers: { authorization: token } }
+      { headers: { auth_token: token } }
     );
     return watchlater;
   } catch (err) {
@@ -37,7 +37,7 @@ export const deleteFromWatchLater = async (id, token) => {
       data: { watchlater }
     } = await axios.delete(`${WATCHLATER}/${id}`, {
       headers: {
-        authorization: token
+        auth_token: token
       }
     });
     return watchlater;
@@ -52,7 +52,7 @@ export const clearWatchLater = async (token) => {
       data: { watchlater }
     } = await axios.delete(`${WATCHLATER}/all`, {
       headers: {
-        authorization: token
+        auth_token: token
       }
     });
     return watchlater;

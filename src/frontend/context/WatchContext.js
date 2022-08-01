@@ -9,7 +9,7 @@ import {
 import {
   watchReducerFunction,
   watchDefaultState,
-  useLocalStorage
+  // useLocalStorage
 } from '../helpers';
 import { ToastMessage } from '../components';
 
@@ -18,12 +18,12 @@ const WatchContext = createContext();
 const WatchProvider = ({ children }) => {
   const [state, dispatch] = useReducer(watchReducerFunction, watchDefaultState);
   const { token } = useAuthCtx();
-  const { updateLocalStorage } = useLocalStorage();
+  // const { updateLocalStorage } = useLocalStorage();
 
   const clearWatchLaterList = async () => {
     dispatch({ type: 'WATCH_API_REQUEST' });
     const watchlater = await clearWatchLater(token);
-    updateLocalStorage('watchlater', watchlater);
+    // updateLocalStorage('watchlater', watchlater);
     dispatch({ type: 'WATCH_API_RESPONSE', payload: [...watchlater] });
     const idArray = watchlater.map((elem) => elem._id);
     dispatch({ type: 'UPDATE_WL_ID', payload: [...idArray] });
@@ -34,7 +34,7 @@ const WatchProvider = ({ children }) => {
   const deleteFromWatchLaterList = async (id) => {
     dispatch({ type: 'WATCH_API_REQUEST' });
     const watchlater = await deleteFromWatchLater(id, token);
-    updateLocalStorage('watchlater', watchlater);
+    // updateLocalStorage('watchlater', watchlater);
     dispatch({ type: 'WATCH_API_RESPONSE', payload: [...watchlater] });
     const idArray = watchlater.map((elem) => elem._id);
     dispatch({ type: 'UPDATE_WL_ID', payload: [...idArray] });
@@ -46,11 +46,10 @@ const WatchProvider = ({ children }) => {
     dispatch({ type: 'WATCH_API_REQUEST' });
     const { addedWatchLaterId } = state;
 
-    console.log('video to add to watchlist', video);
     if (!addedWatchLaterId.includes(video._id)) {
       const watchlater = await addToWatchLater(video, token);
 
-      updateLocalStorage('watchlater', watchlater);
+      // updateLocalStorage('watchlater', watchlater);
       dispatch({ type: 'WATCH_API_RESPONSE', payload: [...watchlater] });
 
       const idArray = watchlater.map((elem) => elem._id);
@@ -69,13 +68,13 @@ const WatchProvider = ({ children }) => {
       const history = await getWatchLaterVideos(token);
       dispatch({ type: 'WATCH_API_RESPONSE', payload: [...history] });
 
-      const datatoUpdate = JSON.parse(localStorage.getItem('userData'));
-      datatoUpdate.history = [...history];
-      localStorage.setItem('userData', JSON.stringify(datatoUpdate));
+      // const datatoUpdate = JSON.parse(localStorage.getItem('userData'));
+      // datatoUpdate.history = [...history];
+      // localStorage.setItem('userData', JSON.stringify(datatoUpdate));
 
       dispatch({ type: 'WATCH_CLOSE_LOADER' });
     };
-    // if (token) getHistoryList();
+    if (token) getHistoryList();
   }, [token]);
 
   return (
