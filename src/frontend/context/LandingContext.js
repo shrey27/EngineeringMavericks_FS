@@ -35,14 +35,15 @@ function LandingProvider({ children }) {
   const [state, dispatch] = useReducer(landingReducer, defaultLandingState);
   const { filter, search, videoList, savedFilterList, after, more } = state;
 
-  const load = () => {
-    dispatch({ type: "SET_LOADING" });
+  // const load = () => {
+  //   dispatch({ type: "SET_LOADING" });
 
-    setTimeout(() => {
-      const newData = videoList?.slice(after, after + perPage);
-      dispatch({ type: "RESET_LOADING", newData });
-    }, 300);
-  };
+  //   setTimeout(() => {
+  //     const newData = videoList?.slice(after, after + perPage);
+  //     dispatch({ type: "RESET_LOADING", newData });
+  //   }, 300);
+  //   dispatch({ type: "RESET_LOADING", newData });
+  // };
 
   const filterList = (list) => {
     return filterVideos(filter, list);
@@ -144,7 +145,8 @@ function LandingProvider({ children }) {
     const getVideosList = async () => {
       const videos = await getVideos();
       dispatch({ type: "GET_VIDEOS", payload: videos });
-      const newData = videos?.slice(0, 4);
+      // const newData = videos?.slice(0, 4);
+      const newData = videos;
       dispatch({ type: "SET_DATA", payload: newData });
     };
     try {
@@ -165,7 +167,7 @@ function LandingProvider({ children }) {
         addNewVideo,
         updateCommentsOnVideo,
         getComments,
-        load,
+        // load,
       }}
     >
       {children}

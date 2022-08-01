@@ -17,7 +17,7 @@ export default function VideoListing() {
   const {
     state: { loading, more, data, filter, newVideo },
     dispatch,
-    load,
+    // load,
     filterList
   } = useLandingCtx();
   const { token } = useAuthCtx();
@@ -31,42 +31,42 @@ export default function VideoListing() {
   const [modalOpen, setModalOpen] = useState(false);
   const [alteredList, setAlteredList] = useState([]);
 
-  /***************Infinite Scrolling******************/
+  // /***************Infinite Scrolling******************/
 
-  const loader = useRef(load);
-  const observer = useRef(
-    new IntersectionObserver(
-      (entries) => {
-        const first = entries[0];
-        if (first.isIntersecting) {
-          loader.current();
-        }
-      },
-      { threshold: 1 }
-    )
-  );
-  const [element, setElement] = useState(null);
+  // const loader = useRef(load);
+  // const observer = useRef(
+  //   new IntersectionObserver(
+  //     (entries) => {
+  //       const first = entries[0];
+  //       if (first.isIntersecting) {
+  //         loader.current();
+  //       }
+  //     },
+  //     { threshold: 1 }
+  //   )
+  // );
+  // const [element, setElement] = useState(null);
 
-  useEffect(() => {
-    loader.current = load;
-  }, [load]);
+  // useEffect(() => {
+  //   loader.current = load;
+  // }, [load]);
 
-  useEffect(() => {
-    const currentElement = element;
-    const currentObserver = observer.current;
+  // useEffect(() => {
+  //   const currentElement = element;
+  //   const currentObserver = observer.current;
 
-    if (currentElement) {
-      currentObserver.observe(currentElement);
-    }
+  //   if (currentElement) {
+  //     currentObserver.observe(currentElement);
+  //   }
 
-    return () => {
-      if (currentElement) {
-        currentObserver.unobserve(currentElement);
-      }
-    };
-  }, [element]);
+  //   return () => {
+  //     if (currentElement) {
+  //       currentObserver.unobserve(currentElement);
+  //     }
+  //   };
+  // }, [element]);
 
-  /******************************************************/
+  // /******************************************************/
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -131,9 +131,9 @@ export default function VideoListing() {
           <Filters handleFilterChange={handleFilterChange} filter={filter} />
           <VideoGrid {...videoGridProps} />
           {loading && <Loader />}
-          {!loading && more && (
+          {/* {!loading && more && (
             <div ref={setElement} style={{ background: 'transparent' }}></div>
-          )}
+          )} */}
         </div>
       </div>
       <Footer />
